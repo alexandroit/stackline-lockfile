@@ -18,8 +18,7 @@ var workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'stackline-lockfile-packed
 var packagePath = path.join(workspace, 'package.json')
 fs.writeFileSync(packagePath, JSON.stringify({ private: true }, null, 2) + '\n')
 
-var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-var install = spawnSync(npm, [
+var install = spawnSync('npm', [
   'install',
   '--ignore-scripts',
   '--no-audit',
@@ -33,6 +32,7 @@ var install = spawnSync(npm, [
     NPM_CONFIG_FETCH_RETRIES: '1',
     NPM_CONFIG_FETCH_TIMEOUT: '15000'
   }),
+  shell: process.platform === 'win32',
   stdio: 'inherit'
 })
 
