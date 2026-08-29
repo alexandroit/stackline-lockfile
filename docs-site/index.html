@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="API, migration, compatibility, and filesystem guidance for the independent @stackline/lockfile CommonJS continuation.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#07111c">
+  <title>Alexandro.Net — @stackline/lockfile API, compatibility, and migration</title>
+  <link rel="canonical" href="https://alexandro.net/docs/vanilla/lockfile/">
+  <link rel="alternate" type="text/plain" href="llms.txt" title="LLM summary">
+  <link rel="alternate" type="text/plain" href="llms-full.txt" title="Full LLM reference">
+  <meta property="og:title" content="@stackline/lockfile — compatibility-first filesystem locks">
+  <meta property="og:description" content="Six-method CommonJS API, additive types, exact unlock-error correction, and honest filesystem boundaries.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://alexandro.net/docs/vanilla/lockfile/">
+  <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "@stackline/lockfile",
+    "version": "1.0.5",
+    "description": "Compatibility-first CommonJS filesystem lock files with observable asynchronous unlock failures.",
+    "codeRepository": "https://github.com/alexandroit/stackline-lockfile",
+    "downloadUrl": "https://www.npmjs.com/package/@stackline/lockfile",
+    "url": "https://alexandro.net/docs/vanilla/lockfile/",
+    "license": "https://spdx.org/licenses/ISC.html",
+    "programmingLanguage": "JavaScript",
+    "runtimePlatform": "Node.js >=14.17"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="wordmark" href="https://alexandro.net/" aria-label="Alexandro.Net home">
+        <span>Alexandro.Net</span>
+        <span class="wordmark-subtitle">Open Source</span>
+      </a>
+      <nav class="top-nav" aria-label="Page navigation">
+        <a href="#install">Install</a>
+        <a href="#api">API</a>
+        <a href="#compatibility">Compatibility</a>
+        <a href="#filesystem">Filesystem boundary</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" tabindex="-1">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Maintained compatibility · Node.js</p>
+        <h1 id="page-title">@stackline/<span>lockfile</span></h1>
+        <p class="lead">A small CommonJS lock-file implementation that keeps the published 1.0.4 contract and makes real asynchronous cleanup failures observable.</p>
+        <ul class="badges" aria-label="Package facts">
+          <li>v1.0.5</li>
+          <li>Node.js ≥14.17</li>
+          <li>CommonJS</li>
+          <li>TypeScript declarations</li>
+          <li>ISC</li>
+        </ul>
+        <div class="hero-actions" aria-label="Package resources">
+          <a class="button primary" href="https://www.npmjs.com/package/@stackline/lockfile">View on npm</a>
+          <a class="button secondary" href="https://github.com/alexandroit/stackline-lockfile">Source on GitHub</a>
+        </div>
+      </div>
+
+      <aside class="install-panel" id="install" aria-labelledby="install-title">
+        <p class="panel-kicker">Pinned install</p>
+        <h2 id="install-title">Choose one package identity</h2>
+
+        <div class="command-block">
+          <div class="command-heading">
+            <span>Direct scoped install</span>
+            <button type="button" hidden data-copy-target="direct-install">Copy</button>
+          </div>
+          <pre aria-label="Direct scoped npm install command"><code id="direct-install">npm install @stackline/lockfile@1.0.5</code></pre>
+        </div>
+
+        <div class="command-block">
+          <div class="command-heading">
+            <span>Keep <code>require('lockfile')</code></span>
+            <button type="button" hidden data-copy-target="alias-install">Copy</button>
+          </div>
+          <pre aria-label="Historical-key npm alias install command"><code id="alias-install">npm install lockfile@npm:@stackline/lockfile@1.0.5</code></pre>
+        </div>
+
+        <p class="microcopy">The alias installs the scoped package under the historical <code>lockfile</code> key, so existing CommonJS imports do not change.</p>
+        <p class="copy-status" aria-live="polite" data-copy-status>Copy controls are an optional enhancement; all documentation works without JavaScript.</p>
+      </aside>
+    </section>
+
+    <section class="status-callout" aria-labelledby="correction-summary">
+      <div class="status-mark" aria-hidden="true">18</div>
+      <div>
+        <h2 id="correction-summary">One correction, deliberately bounded</h2>
+        <p>Asynchronous <code>unlock</code> still treats <code>ENOENT</code> as success, but now forwards the original non-<code>ENOENT</code> unlink error exactly once. Successful callbacks and every synchronous behavior stay compatible.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="model-title">
+      <div class="section-heading">
+        <p class="eyebrow">Coordination model</p>
+        <h2 id="model-title">A zero-byte, cooperative lock</h2>
+        <p>The implementation relies on filesystem primitives, not a daemon or an ownership lease. Every participant must follow the same protocol.</p>
+      </div>
+
+      <div class="flow" role="img" aria-label="Acquire creates a zero-byte file with exclusive wx access. EEXIST can be returned, polled with wait, retried, or evaluated for stale takeover. Unlock removes the file.">
+        <div aria-hidden="true">
+          <span class="flow-index">01</span>
+          <strong>Acquire</strong>
+          <small>exclusive <code>wx</code></small>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div aria-hidden="true">
+          <span class="flow-index">02</span>
+          <strong>Coordinate</strong>
+          <small>wait · retry · stale</small>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div aria-hidden="true">
+          <span class="flow-index">03</span>
+          <strong>Release</strong>
+          <small>unlink the file</small>
+        </div>
+      </div>
+
+      <div class="fact-grid">
+        <article>
+          <p class="fact-label">On disk</p>
+          <h3>Zero bytes</h3>
+          <p>No owner, PID, heartbeat, policy, or fencing token is encoded.</p>
+        </article>
+        <article>
+          <p class="fact-label">Within one process</p>
+          <h3>Tracked handles</h3>
+          <p>Known locks receive best-effort cleanup through <code>signal-exit</code>.</p>
+        </article>
+        <article>
+          <p class="fact-label">Across processes</p>
+          <h3>Filesystem semantics</h3>
+          <p>Exclusive create, visibility, hard-link, unlink, and metadata behavior determine correctness.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="api" aria-labelledby="api-title">
+      <div class="section-heading">
+        <p class="eyebrow">Public surface</p>
+        <h2 id="api-title">Six CommonJS methods</h2>
+        <p>All asynchronous operations use callbacks. Sync methods return their documented value or throw, except for best-effort <code>unlockSync</code>.</p>
+      </div>
+
+      <div class="method-grid">
+        <article class="method-card">
+          <p class="method-kind">Async · acquire</p>
+          <h3><code>lock(path, [options], callback)</code></h3>
+          <p>Creates the lock or calls back with the original acquisition or contention error. Success is <code>callback()</code>.</p>
+        </article>
+        <article class="method-card">
+          <p class="method-kind">Sync · acquire</p>
+          <h3><code>lockSync(path, [options])</code></h3>
+          <p>Creates the lock and returns <code>undefined</code>, or throws. Sync calls reject waiting options.</p>
+        </article>
+        <article class="method-card featured">
+          <p class="method-kind">Async · release</p>
+          <h3><code>unlock(path, [callback])</code></h3>
+          <p>Unlinks the lock. Success and <code>ENOENT</code> call back without an error; other unlink errors are preserved.</p>
+        </article>
+        <article class="method-card">
+          <p class="method-kind">Sync · release</p>
+          <h3><code>unlockSync(path)</code></h3>
+          <p>Best-effort cleanup. It suppresses every unlink error and returns <code>undefined</code>, matching upstream.</p>
+        </article>
+        <article class="method-card">
+          <p class="method-kind">Async · observe</p>
+          <h3><code>check(path, [options], callback)</code></h3>
+          <p>Calls <code>callback(error, isLocked)</code>. The result is an observation, not an atomic reservation.</p>
+        </article>
+        <article class="method-card">
+          <p class="method-kind">Sync · observe</p>
+          <h3><code>checkSync(path, [options])</code></h3>
+          <p>Returns whether the lock exists and is not stale, or throws for an unexpected filesystem error.</p>
+        </article>
+      </div>
+
+      <div class="property-note">
+        <p class="fact-label">Mutable compatibility property</p>
+        <p><code>lockfile.filetime</code> defaults to <code>ctime</code> on POSIX and <code>mtime</code> on Windows. It selects the stat timestamp used by stale checks.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="options-title">
+      <div class="section-heading compact">
+        <p class="eyebrow">Timing controls</p>
+        <h2 id="options-title">Options retain upstream meaning</h2>
+      </div>
+      <div class="table-wrap" tabindex="0" aria-label="Scrollable lockfile options table">
+        <table>
+          <caption>Supported options and their scope</caption>
+          <thead>
+            <tr>
+              <th scope="col">Option</th>
+              <th scope="col">Used by</th>
+              <th scope="col">Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><code>wait</code></th>
+              <td>Async <code>lock</code></td>
+              <td>Poll for up to this many milliseconds, then return the original contention error.</td>
+            </tr>
+            <tr>
+              <th scope="row"><code>pollPeriod</code></th>
+              <td>Async <code>lock</code></td>
+              <td>Polling interval while waiting. Defaults to 100 milliseconds.</td>
+            </tr>
+            <tr>
+              <th scope="row"><code>stale</code></th>
+              <td>Lock and check</td>
+              <td>Age in milliseconds after which takeover is allowed. Disabled when omitted.</td>
+            </tr>
+            <tr>
+              <th scope="row"><code>retries</code></th>
+              <td><code>lock</code>, <code>lockSync</code></td>
+              <td>Number of additional acquisition attempts.</td>
+            </tr>
+            <tr>
+              <th scope="row"><code>retryWait</code></th>
+              <td>Async <code>lock</code></td>
+              <td>Delay between retries. <code>lockSync</code> rejects it.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note"><code>lockSync</code> rejects <code>wait</code> and <code>retryWait</code>; <code>checkSync</code> rejects <code>wait</code>. POSIX stale checks use <code>ctime</code>, Windows uses <code>mtime</code>, and sync takeover retains the upstream timestamp-resolution rounding rule.</p>
+    </section>
+
+    <section class="section" id="compatibility" aria-labelledby="compatibility-title">
+      <div class="section-heading">
+        <p class="eyebrow">Compatibility boundary</p>
+        <h2 id="compatibility-title">Issue 18 is the sole runtime delta</h2>
+        <p>Published <code>lockfile@1.0.4</code> discarded every asynchronous unlink error. Version 1.0.5 distinguishes an already-missing lock from a real cleanup failure.</p>
+      </div>
+
+      <div class="table-wrap" tabindex="0" aria-label="Scrollable asynchronous unlock compatibility table">
+        <table>
+          <caption>Unlock outcomes compared with the 1.0.4 baseline</caption>
+          <thead>
+            <tr>
+              <th scope="col">Unlink outcome</th>
+              <th scope="col"><code>lockfile@1.0.4</code></th>
+              <th scope="col"><code>@stackline/lockfile@1.0.5</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Success</th>
+              <td><code>callback()</code></td>
+              <td><code>callback()</code></td>
+            </tr>
+            <tr>
+              <th scope="row"><code>ENOENT</code></th>
+              <td><code>callback()</code></td>
+              <td><code>callback()</code></td>
+            </tr>
+            <tr class="delta-row">
+              <th scope="row">Any other error</th>
+              <td><code>callback()</code>, error lost</td>
+              <td><code>callback(originalError)</code>, exactly once</td>
+            </tr>
+            <tr>
+              <th scope="row">Synchronous unlink error</th>
+              <td>Suppressed</td>
+              <td>Suppressed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="split-callouts">
+        <article class="callout positive">
+          <h3>Added types, unchanged runtime</h3>
+          <p>First-party declarations model callbacks, options, mutable <code>filetime</code>, and real <code>undefined</code> success values. They add no Promise or ESM implementation.</p>
+        </article>
+        <article class="callout caution">
+          <h3>Issue 30 is not fixed</h3>
+          <p>Different callers can still choose conflicting stale thresholds. The format contains no owner or policy metadata, so resolving that conflict requires a new protocol.</p>
+        </article>
+      </div>
+      <p class="source-link">Read the <a href="https://github.com/npm/lockfile/issues/18">issue 18 boundary</a>, the <a href="https://github.com/npm/lockfile/issues/30">issue 30 limitation</a>, and the full <a href="/docs/vanilla/lockfile/COMPATIBILITY_CONTRACT.md">compatibility contract</a>.</p>
+    </section>
+
+    <section class="section" id="filesystem" aria-labelledby="filesystem-title">
+      <div class="section-heading">
+        <p class="eyebrow">Operational safety</p>
+        <h2 id="filesystem-title">The filesystem is part of the protocol</h2>
+        <p>Local tests cannot establish behavior for every mount. Validate the exact operating system, filesystem, topology, and failure modes used in production.</p>
+      </div>
+
+      <div class="boundary-grid">
+        <article>
+          <h3>NFS and distributed mounts</h3>
+          <p>Attribute caching, visibility delay, clock differences, coarse timestamps, or weaker atomicity can invalidate stale and contention assumptions.</p>
+        </article>
+        <article>
+          <h3>Stale takeover</h3>
+          <p>A threshold that is too short can remove a live lock. POSIX and Windows deliberately use different metadata timestamps.</p>
+        </article>
+        <article>
+          <h3>Crash cleanup</h3>
+          <p>Process-exit removal is best-effort. Abrupt termination, power loss, and unlink errors can leave a lock behind.</p>
+        </article>
+        <article>
+          <h3>Advisory, not access control</h3>
+          <p>A party able to modify the directory can bypass the protocol. Use trusted paths and appropriate directory ownership and permissions.</p>
+        </article>
+        <article>
+          <h3><code>check</code> is an observation</h3>
+          <p>Another participant can act after a check. Acquire the lock for mutual exclusion; do not build a check-then-act security decision.</p>
+        </article>
+        <article>
+          <h3>Know when to migrate protocols</h3>
+          <p>Heartbeats, ownership metadata, leases, fencing, or compromise detection need a different design. <code>proper-lockfile</code> is not drop-in compatible.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="migration-banner" aria-labelledby="migration-title">
+      <div>
+        <p class="eyebrow">Adopt deliberately</p>
+        <h2 id="migration-title">Existing import or new scoped import?</h2>
+        <p>Use the npm alias for a dependency-only migration. Import the scope directly in new code. In either case, test retained-lock failures and the real filesystem.</p>
+      </div>
+      <a class="button primary" href="/docs/vanilla/lockfile/MIGRATION.md">Read the migration guide</a>
+    </section>
+
+    <section class="section references" aria-labelledby="references-title">
+      <div class="section-heading compact">
+        <p class="eyebrow">Reference</p>
+        <h2 id="references-title">Package documentation</h2>
+      </div>
+      <nav class="reference-grid" aria-label="Package documentation">
+        <a href="/docs/vanilla/lockfile/README.md"><strong>README</strong><span>Install, API, options, and caveats</span></a>
+        <a href="/docs/vanilla/lockfile/COMPATIBILITY_CONTRACT.md"><strong>Compatibility</strong><span>Immutable baseline and bounded delta</span></a>
+        <a href="/docs/vanilla/lockfile/MIGRATION.md"><strong>Migration</strong><span>Direct and historical-key installs</span></a>
+        <a href="/docs/vanilla/lockfile/SECURITY.md"><strong>Security</strong><span>Reporting and trust boundary</span></a>
+        <a href="/docs/vanilla/lockfile/THIRD_PARTY_LICENSES.md"><strong>Licenses</strong><span>Upstream and runtime dependency</span></a>
+        <a href="/docs/vanilla/lockfile/llms-full.txt"><strong>Machine reference</strong><span>Full plain-text contract</span></a>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <a class="wordmark footer-mark" href="https://alexandro.net/">
+        <span>Alexandro.Net</span>
+        <span class="wordmark-subtitle">Open Source</span>
+      </a>
+      <p>Independent Stackline maintenance for small, durable JavaScript building blocks.</p>
+    </div>
+    <p class="disclaimer"><code>@stackline/lockfile</code> is not affiliated with or endorsed by Isaac Z. Schlueter, npm, the original maintainers, or the upstream project.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

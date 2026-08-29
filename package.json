@@ -1,0 +1,78 @@
+{
+  "name": "@stackline/lockfile",
+  "version": "1.0.5",
+  "description": "Maintained compatibility-first file locking with observable asynchronous unlock failures",
+  "type": "commonjs",
+  "main": "lockfile.js",
+  "types": "lockfile.d.ts",
+  "files": [
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "THIRD_PARTY_LICENSES.md",
+    "lockfile.d.ts",
+    "lockfile.js"
+  ],
+  "engines": {
+    "node": ">=14.17"
+  },
+  "scripts": {
+    "test": "npm run test:core && npm run test:stress",
+    "test:core": "node test/run.cjs",
+    "test:stress": "node test/stress.cjs",
+    "test:types": "tsc --project test/types/tsconfig.json",
+    "test:docs": "node docs-site/check.mjs",
+    "build:docs": "node scripts/build-docs.cjs",
+    "verify:docs": "npm run test:docs && npm run build:docs",
+    "coverage": "c8 --include=lockfile.js --check-coverage --lines 100 --functions 100 --statements 100 --branches 90 npm test",
+    "lint": "node --check lockfile.js && node --check test/run.cjs && node --check test/stress.cjs && node --check docs-site/app.js && node --check docs-site/check.mjs && node --check scripts/build-docs.cjs && node --check scripts/check-package.cjs && node --check scripts/check-licenses.cjs && node --check scripts/check-packed.cjs && node --check scripts/alias-registry-smoke.cjs && node --check scripts/ci-packed-consumer.cjs && node --check scripts/install-and-smoke-child.cjs && node --check scripts/create-artifact.cjs",
+    "check:package": "node scripts/check-package.cjs",
+    "check:licenses": "node scripts/check-licenses.cjs",
+    "check:packed": "node scripts/check-packed.cjs",
+    "smoke:registry": "node scripts/alias-registry-smoke.cjs",
+    "validate": "npm run lint && npm run test && npm run coverage && npm run test:types && npm run verify:docs && npm run check:package && npm run check:licenses && publint",
+    "sbom": "cyclonedx-npm --omit dev --output-format JSON --output-file release-candidate/stackline-lockfile-1.0.5.cdx.json",
+    "artifact": "node scripts/create-artifact.cjs",
+    "prepack": "npm run lint && npm run test:core && npm run test:types && npm run check:package && npm run check:licenses"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandroit/stackline-lockfile.git"
+  },
+  "homepage": "https://alexandro.net/docs/vanilla/lockfile/",
+  "bugs": {
+    "url": "https://github.com/alexandroit/stackline-lockfile/issues"
+  },
+  "keywords": [
+    "lockfile",
+    "file-lock",
+    "filesystem",
+    "mutex",
+    "concurrency",
+    "commonjs",
+    "stackline"
+  ],
+  "author": "Alexandro Oliveira",
+  "contributors": [
+    "Isaac Z. Schlueter and Contributors (original lockfile implementation)"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "signal-exit": "3.0.7"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
+    "@cyclonedx/cyclonedx-npm": "6.0.1",
+    "@types/node": "14.18.63",
+    "c8": "12.0.0",
+    "lockfile-upstream": "npm:lockfile@1.0.4",
+    "pnpm": "9.15.9",
+    "publint": "0.3.24",
+    "typescript": "3.9.10",
+    "yarn": "1.22.22"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

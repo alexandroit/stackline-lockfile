@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /docs/vanilla/lockfile/
+
+Sitemap: https://alexandro.net/docs/vanilla/lockfile/sitemap.xml

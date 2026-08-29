@@ -1,0 +1,11 @@
+coverage/
+node_modules/
+release-candidate/*.cdx.json
+release-candidate/*.json
+release-candidate/*.sha256
+release-candidate/*.sha512
+release-candidate/*.tgz
+site-dist/
+*.lock.tmp
+*.log
+*.tgz

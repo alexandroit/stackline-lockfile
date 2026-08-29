@@ -1,0 +1,23 @@
+# @stackline/lockfile
+
+Independent compatibility-first continuation of `lockfile@1.0.4`. Version
+1.0.5 keeps the six-method callback-based CommonJS API, adds first-party types,
+and changes only asynchronous unlock of a present-but-unremovable file:
+`ENOENT` remains success, while the original non-`ENOENT` unlink error is
+reported exactly once. Synchronous unlock remains best-effort.
+
+- Runtime: Node.js >=14.17
+- Direct install: `npm install @stackline/lockfile@1.0.5`
+- Historical-key alias: `npm install lockfile@npm:@stackline/lockfile@1.0.5`
+- Documentation: https://alexandro.net/docs/vanilla/lockfile/
+- Package: https://www.npmjs.com/package/@stackline/lockfile
+- Repository: https://github.com/alexandroit/stackline-lockfile
+- README: https://alexandro.net/docs/vanilla/lockfile/README.md
+- Compatibility: https://alexandro.net/docs/vanilla/lockfile/COMPATIBILITY_CONTRACT.md
+- Migration: https://alexandro.net/docs/vanilla/lockfile/MIGRATION.md
+- Security: https://alexandro.net/docs/vanilla/lockfile/SECURITY.md
+- Full machine reference: https://alexandro.net/docs/vanilla/lockfile/llms-full.txt
+
+The zero-byte lock format is cooperative and has no owner, heartbeat, fencing
+token, or stale-policy metadata. Issue 30 is not fixed. Validate local, NFS,
+and cross-host filesystem assumptions for the intended deployment.

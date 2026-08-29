@@ -1,0 +1,101 @@
+# @stackline/lockfile full reference
+
+Canonical documentation: https://alexandro.net/docs/vanilla/lockfile/
+Package: https://www.npmjs.com/package/@stackline/lockfile
+Repository: https://github.com/alexandroit/stackline-lockfile
+
+`@stackline/lockfile@1.0.5` is an independent Stackline continuation of the
+ISC-licensed `lockfile@1.0.4` npm artifact. It is not affiliated with or
+endorsed by Isaac Z. Schlueter, npm, the original maintainers, or the upstream
+project. The runtime is CommonJS on Node.js >=14.17. First-party TypeScript
+declarations are additive; there is no Promise API or separate ESM runtime.
+
+## Installation
+
+Direct scoped install:
+
+`npm install @stackline/lockfile@1.0.5`
+
+Then use `require('@stackline/lockfile')`.
+
+Historical-key npm alias:
+
+`npm install lockfile@npm:@stackline/lockfile@1.0.5`
+
+The equivalent dependency value is
+`"lockfile": "npm:@stackline/lockfile@1.0.5"`, which preserves
+`require('lockfile')`.
+
+## API
+
+- `lock(path, [options], callback)` acquires asynchronously. It invokes
+  `callback(error)` on failure and `callback()` on success.
+- `lockSync(path, [options])` acquires synchronously. It returns `undefined`
+  on success or throws.
+- `unlock(path, [callback])` removes asynchronously. Successful removal and
+  `ENOENT` invoke `callback()`. The original non-`ENOENT` unlink error is
+  delivered exactly once. Without a callback there is no error-delivery
+  channel.
+- `unlockSync(path)` performs best-effort removal, suppresses every unlink
+  error, and returns `undefined`.
+- `check(path, [options], callback)` invokes
+  `callback(error, isLocked)`. It observes state but does not reserve it.
+- `checkSync(path, [options])` returns whether the file exists and is not stale,
+  or throws for an unexpected filesystem error.
+
+The mutable `filetime` property defaults to `ctime` on POSIX and `mtime` on
+Windows and selects the stat timestamp used for stale checks.
+
+## Options
+
+- `wait`: maximum milliseconds async lock will poll before returning the
+  original contention error.
+- `pollPeriod`: async wait polling interval; default 100 milliseconds.
+- `stale`: age in milliseconds after which takeover may occur.
+- `retries`: additional lock or lockSync acquisition attempts.
+- `retryWait`: milliseconds between async lock retries.
+
+`lockSync` rejects `wait` and `retryWait`; `checkSync` rejects `wait`. Sync
+stale takeover retains the upstream upward rounding behavior when a filesystem
+appears to have only second-resolution timestamps. Supplied option objects are
+mutable bookkeeping inputs, matching upstream.
+
+## Compatibility boundary
+
+The published `lockfile@1.0.4` npm artifact is the immutable baseline. The sole
+intentional runtime delta is upstream issue 18: async unlock no longer reports
+false success for a non-`ENOENT` unlink error. It reports the original error
+exactly once. Success, `ENOENT`, sync suppression, callback success values,
+acquisition, checking, retries, wait/poll behavior, stale behavior, zero-byte
+`wx` files, `.STALE` coordination, same-process tracking, and `signal-exit`
+cleanup remain compatible.
+
+Issue 30 is not fixed. Different participants choose their own stale threshold
+while the zero-byte format records no owner, policy, PID, start time, heartbeat,
+or fencing token. Resolving this requires a new protocol.
+
+## Filesystem and security boundary
+
+This is a cooperative lock, not authentication, access control, durable
+consensus, or a sandbox. Correctness requires all participants to use the same
+path and requires sufficiently atomic exclusive create, hard link, unlink,
+visibility, and metadata behavior from the filesystem.
+
+NFS and other distributed filesystems may introduce attribute caching,
+visibility delays, cross-host clock differences, weak atomicity, or coarse
+timestamp resolution. Validate the exact mount and topology. A stale threshold
+that is too short can remove a live lock. Best-effort exit cleanup cannot
+guarantee removal after abrupt termination, host failure, power loss, or an
+unlink error. Use a trusted lock directory with appropriate permissions.
+
+If ownership metadata, leases, heartbeats, fencing, or compromise detection
+are required, evaluate another protocol. `proper-lockfile` is one candidate,
+but its mkdir/heartbeat/release-function protocol is not a drop-in replacement.
+
+## License and provenance
+
+License: ISC. The complete Isaac Z. Schlueter and Contributors notice from the
+official 1.0.4 artifact is retained in LICENSE and NOTICE. Runtime dependency
+`signal-exit@3.0.7` is also ISC licensed. Exact-version advisory searches dated
+2026-08-29 found no matches for upstream 1.0.4; this is not a
+vulnerability-free claim.
