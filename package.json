@@ -53,7 +53,7 @@
     "commonjs",
     "stackline"
   ],
-  "author": "Alexandro Oliveira",
+  "author": "Stackline Maintainers",
   "contributors": [
     "Isaac Z. Schlueter and Contributors (original lockfile implementation)"
   ],
