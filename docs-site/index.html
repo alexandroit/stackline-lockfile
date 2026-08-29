@@ -78,7 +78,7 @@
             <span>Direct scoped install</span>
             <button type="button" hidden data-copy-target="direct-install">Copy</button>
           </div>
-          <pre aria-label="Direct scoped npm install command"><code id="direct-install">npm install @stackline/lockfile@1.0.5</code></pre>
+          <pre aria-label="Direct scoped npm install command"><code id="direct-install"><!--email_off-->npm install @stackline/lockfile@1.0.5<!--/email_off--></code></pre>
         </div>
 
         <div class="command-block">
@@ -86,7 +86,7 @@
             <span>Keep <code>require('lockfile')</code></span>
             <button type="button" hidden data-copy-target="alias-install">Copy</button>
           </div>
-          <pre aria-label="Historical-key npm alias install command"><code id="alias-install">npm install lockfile@npm:@stackline/lockfile@1.0.5</code></pre>
+          <pre aria-label="Historical-key npm alias install command"><code id="alias-install"><!--email_off-->npm install lockfile@npm:@stackline/lockfile@1.0.5<!--/email_off--></code></pre>
         </div>
 
         <p class="microcopy">The alias installs the scoped package under the historical <code>lockfile</code> key, so existing CommonJS imports do not change.</p>
@@ -245,7 +245,7 @@
       <div class="section-heading">
         <p class="eyebrow">Compatibility boundary</p>
         <h2 id="compatibility-title">Issue 18 is the sole runtime delta</h2>
-        <p>Published <code>lockfile@1.0.4</code> discarded every asynchronous unlink error. Version 1.0.5 distinguishes an already-missing lock from a real cleanup failure.</p>
+        <p>Published <code><!--email_off-->lockfile@1.0.4<!--/email_off--></code> discarded every asynchronous unlink error. Version 1.0.5 distinguishes an already-missing lock from a real cleanup failure.</p>
       </div>
 
       <div class="table-wrap" tabindex="0" aria-label="Scrollable asynchronous unlock compatibility table">
@@ -254,8 +254,8 @@
           <thead>
             <tr>
               <th scope="col">Unlink outcome</th>
-              <th scope="col"><code>lockfile@1.0.4</code></th>
-              <th scope="col"><code>@stackline/lockfile@1.0.5</code></th>
+              <th scope="col"><code><!--email_off-->lockfile@1.0.4<!--/email_off--></code></th>
+              <th scope="col"><code><!--email_off-->@stackline/lockfile@1.0.5<!--/email_off--></code></th>
             </tr>
           </thead>
           <tbody>

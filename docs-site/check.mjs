@@ -52,6 +52,7 @@ var docs = {}
 rootFiles.forEach(function (name) { docs[name] = read(projectDir, name) })
 
 var html = site['index.html']
+var visibleHtml = html.replace(/<!--\/?email_off-->/g, '')
 var css = site['styles.css']
 var app = site['app.js']
 var robots = site['robots.txt']
@@ -67,7 +68,7 @@ assert(packageMetadata.runtimeFloor === 'Node.js 14.17.0', 'package metadata run
 assert(packageMetadata.moduleFormat === 'CommonJS', 'package metadata module format is wrong')
 assert(packageMetadata.productionDependencies === 1, 'package metadata production dependency count is wrong')
 
-includesAll(html, [
+includesAll(visibleHtml, [
   '<html lang="en">',
   '<link rel="canonical" href="' + canonical + '">',
   'Alexandro.Net',
@@ -92,7 +93,7 @@ includesAll(html, [
 
 var methods = ['lock(', 'lockSync(', 'unlock(', 'unlockSync(', 'check(', 'checkSync(']
 methods.forEach(function (method) {
-  assert(html.indexOf(method) !== -1, 'index.html is missing API method: ' + method)
+  assert(visibleHtml.indexOf(method) !== -1, 'index.html is missing API method: ' + method)
   assert(docs['README.md'].indexOf(method) !== -1, 'README.md is missing API method: ' + method)
 })
 
@@ -100,6 +101,8 @@ assert((html.match(/<h1(?:\s|>)/g) || []).length === 1, 'index.html must contain
 assert(html.length > 14000, 'index.html is unexpectedly thin')
 assert(html.indexOf('http://') === -1, 'index.html contains an insecure http URL')
 assert(html.indexOf('localhost') === -1, 'index.html contains localhost')
+assert((html.match(/<!--email_off-->/g) || []).length === 5, 'index.html must protect five package-at-version strings from email obfuscation')
+assert((html.match(/<!--\/email_off-->/g) || []).length === 5, 'index.html email protection markers must balance')
 
 var jsonLdMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)
 assert(jsonLdMatch, 'index.html is missing JSON-LD')
