@@ -1,0 +1,8 @@
+{
+  "moduleFormat": "CommonJS",
+  "name": "@stackline/lockfile",
+  "productionDependencies": 1,
+  "runtimeFloor": "Node.js 14.17.0",
+  "types": "First-party TypeScript declarations",
+  "version": "1.0.5"
+}

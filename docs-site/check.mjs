@@ -30,7 +30,8 @@ var siteFiles = [
   'robots.txt',
   'sitemap.xml',
   'llms.txt',
-  'llms-full.txt'
+  'llms-full.txt',
+  'package-meta.json'
 ]
 
 var rootFiles = [
@@ -57,7 +58,14 @@ var robots = site['robots.txt']
 var sitemap = site['sitemap.xml']
 var llms = site['llms.txt']
 var llmsFull = site['llms-full.txt']
+var packageMetadata = JSON.parse(site['package-meta.json'])
 var canonical = 'https://alexandro.net/docs/vanilla/lockfile/'
+
+assert(packageMetadata.name === '@stackline/lockfile', 'package metadata identity is wrong')
+assert(packageMetadata.version === '1.0.5', 'package metadata version is wrong')
+assert(packageMetadata.runtimeFloor === 'Node.js 14.17.0', 'package metadata runtime floor is wrong')
+assert(packageMetadata.moduleFormat === 'CommonJS', 'package metadata module format is wrong')
+assert(packageMetadata.productionDependencies === 1, 'package metadata production dependency count is wrong')
 
 includesAll(html, [
   '<html lang="en">',

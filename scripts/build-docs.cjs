@@ -15,6 +15,7 @@ const siteFiles = [
   'index.html',
   'llms-full.txt',
   'llms.txt',
+  'package-meta.json',
   'robots.txt',
   'sitemap.xml',
   'styles.css'
