@@ -1,5 +1,14 @@
 # Changes
 
+## 1.0.6 - 2026-08-30
+
+* Move the maintained process-exit integration from `signal-exit@3.0.7` to
+  `signal-exit@4.1.0` and use its explicit CommonJS `onExit` export.
+* Preserve normal-exit lock cleanup, signal handling, the Node 14.17 runtime
+  floor, and the complete `lockfile@1.0.4` compatibility contract.
+* Require clean direct and historical-alias production closures with zero
+  install warnings and zero known vulnerabilities.
+
 
 ## 1.0.5 - 2026-08-29
 

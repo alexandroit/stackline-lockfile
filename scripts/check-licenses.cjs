@@ -16,8 +16,8 @@ assert.match(notice, /not affiliated/i)
 assert.match(notice, /lockfile@1\.0\.4/)
 
 const thirdParty = fs.readFileSync(path.join(root, 'THIRD_PARTY_LICENSES.md'), 'utf8')
-assert.match(thirdParty, /signal-exit@3\.0\.7/)
-assert.match(thirdParty, /Copyright \(c\) 2015, Contributors/)
+assert.match(thirdParty, /signal-exit@4\.1\.0/)
+assert.match(thirdParty, /Copyright \(c\) 2015-2023 Benjamin Coe, Isaac Z\. Schlueter, and Contributors/)
 assert.match(thirdParty, /ISC/)
 
 process.stdout.write(`license provenance: pass (${licenseSha256})\n`)

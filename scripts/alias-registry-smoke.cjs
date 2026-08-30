@@ -24,19 +24,19 @@ const server = http.createServer((request, response) => {
   try { decoded = decodeURIComponent(raw) } catch (_) {}
 
   if (decoded === '/@stackline/lockfile') {
-    const tarballUrl = `http://127.0.0.1:${server.address().port}/@stackline/lockfile/-/stackline-lockfile-1.0.5.tgz`
+    const tarballUrl = `http://127.0.0.1:${server.address().port}/@stackline/lockfile/-/stackline-lockfile-1.0.6.tgz`
     return json(response, {
       name: '@stackline/lockfile',
-      'dist-tags': { latest: '1.0.5' },
+      'dist-tags': { latest: '1.0.6' },
       versions: {
-        '1.0.5': Object.assign({}, packageJson, {
+        '1.0.6': Object.assign({}, packageJson, {
           dist: { tarball: tarballUrl, shasum, integrity }
         })
       }
     })
   }
 
-  if (decoded === '/@stackline/lockfile/-/stackline-lockfile-1.0.5.tgz') {
+  if (decoded === '/@stackline/lockfile/-/stackline-lockfile-1.0.6.tgz') {
     response.writeHead(200, {
       'content-type': 'application/octet-stream',
       'content-length': tarballBytes.length
@@ -54,7 +54,7 @@ server.listen(0, '127.0.0.1', async () => {
     await directScopedSmoke(registry)
     await aliasSmoke('npm', process.platform === 'win32' ? 'npm.cmd' : 'npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], registry)
     await aliasSmoke('pnpm-9', executable('pnpm'), ['install', '--ignore-scripts', '--frozen-lockfile=false'], registry)
-    await aliasSmoke('yarn-1', executable('yarn'), ['install', '--ignore-scripts', '--non-interactive'], registry)
+    await aliasSmoke('yarn-1', executable('yarn'), ['install', '--non-interactive'], registry)
     process.stdout.write(`${JSON.stringify({ status: 'pass', directScoped: true, aliases: ['npm', 'pnpm-9', 'yarn-1'] })}\n`)
   } catch (error) {
     console.error(error.stack || error)
@@ -71,9 +71,13 @@ async function directScopedSmoke (registry) {
     private: true,
     dependencies: { '@stackline/lockfile': `file:${absoluteTarball}` }
   }, null, 2)}\n`)
-  await run(process.execPath, [path.resolve(__dirname, 'install-and-smoke-child.cjs'), 'direct'], directory, {
+  const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+  const install = await run(npm, ['install', '--ignore-scripts', '--no-audit', '--no-fund'], directory, {
     STACKLINE_SCOPED_REGISTRY: registry
   })
+  assertCleanInstall(install, 'direct npm install')
+  await verifyNpmClosure(directory, '@stackline/lockfile')
+  await run(process.execPath, [path.resolve(__dirname, 'install-and-smoke-child.cjs'), 'direct-installed'], directory)
 }
 
 async function aliasSmoke (name, command, args, registry) {
@@ -81,11 +85,39 @@ async function aliasSmoke (name, command, args, registry) {
   fs.mkdirSync(directory)
   fs.writeFileSync(path.join(directory, 'package.json'), `${JSON.stringify({
     private: true,
-    dependencies: { lockfile: 'npm:@stackline/lockfile@1.0.5' }
+    dependencies: { lockfile: 'npm:@stackline/lockfile@1.0.6' }
   }, null, 2)}\n`)
   fs.writeFileSync(path.join(directory, '.npmrc'), `@stackline:registry=${registry}\n`)
-  await run(command, args, directory)
+  const install = await run(command, args, directory)
+  assertCleanInstall(install, `${name} alias install`)
+  if (name === 'npm') await verifyNpmClosure(directory, 'lockfile')
   await run(process.execPath, [path.resolve(__dirname, 'install-and-smoke-child.cjs'), 'alias'], directory)
+}
+
+async function verifyNpmClosure (directory, dependencyKey) {
+  const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
+  const listed = await run(npm, ['ls', '--all', '--json'], directory)
+  const tree = JSON.parse(listed.stdout)
+  assert.ok(!tree.problems || tree.problems.length === 0, `npm ls reports problems: ${JSON.stringify(tree.problems)}`)
+  const rootDependency = tree.dependencies && tree.dependencies[dependencyKey]
+  assert.ok(rootDependency, `${dependencyKey} is present in the production tree`)
+  assert.strictEqual(rootDependency.version, '1.0.6')
+  assert.strictEqual(rootDependency.dependencies['signal-exit'].version, '4.1.0')
+
+  const audited = await run(npm, [
+    'audit',
+    '--omit=dev',
+    '--json',
+    '--registry=https://registry.npmjs.org/'
+  ], directory)
+  const report = JSON.parse(audited.stdout)
+  assert.strictEqual(report.metadata.vulnerabilities.total, 0, 'production audit must report zero vulnerabilities')
+}
+
+function assertCleanInstall (result, label) {
+  const output = `${result.stdout}\n${result.stderr}`
+  assert.ok(!/(?:^|\n)\s*(?:(?:npm\s+)?warn(?:ing)?\b|warning\b)/i.test(output), `${label} emitted a warning`)
+  assert.ok(!/\bdeprecated\b/i.test(output), `${label} emitted a deprecation warning`)
 }
 
 function executable (name) {
@@ -105,6 +137,8 @@ function json (response, body) {
 
 function run (command, args, cwd, extraEnv) {
   return new Promise((resolve, reject) => {
+    let stdout = ''
+    let stderr = ''
     const child = spawn(command, args, {
       cwd,
       env: Object.assign({}, process.env, extraEnv || {}, {
@@ -118,9 +152,19 @@ function run (command, args, cwd, extraEnv) {
         npm_config_https_proxy: 'false',
         NO_PROXY: '*'
       }),
-      stdio: 'inherit'
+      stdio: ['ignore', 'pipe', 'pipe']
+    })
+    child.stdout.on('data', chunk => {
+      stdout += chunk
+      process.stdout.write(chunk)
+    })
+    child.stderr.on('data', chunk => {
+      stderr += chunk
+      process.stderr.write(chunk)
     })
     child.on('error', reject)
-    child.on('exit', code => code === 0 ? resolve() : reject(new Error(`${command} exited ${code}`)))
+    child.on('exit', code => code === 0
+      ? resolve({ stdout, stderr })
+      : reject(new Error(`${command} exited ${code}`)))
   })
 }

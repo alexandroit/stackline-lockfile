@@ -12,7 +12,7 @@ maintainers, or the upstream project.
 For new code, install and import the scoped package directly:
 
 ```sh
-npm install @stackline/lockfile@1.0.5
+npm install @stackline/lockfile@1.0.6
 ```
 
 ```js
@@ -23,7 +23,7 @@ To keep an existing `require('lockfile')` unchanged, install the scoped
 package under the historical dependency key:
 
 ```sh
-npm install lockfile@npm:@stackline/lockfile@1.0.5
+npm install lockfile@npm:@stackline/lockfile@1.0.6
 ```
 
 The equivalent manifest entry is:
@@ -31,7 +31,7 @@ The equivalent manifest entry is:
 ```json
 {
   "dependencies": {
-    "lockfile": "npm:@stackline/lockfile@1.0.5"
+    "lockfile": "npm:@stackline/lockfile@1.0.6"
   }
 }
 ```

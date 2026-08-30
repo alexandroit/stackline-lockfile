@@ -14,9 +14,11 @@ floor of exact Node.js 14.17 and the callback-based CommonJS implementation.
 Preserve all six methods, optional arguments, callback timing and values,
 original error identity, `undefined` success, zero-byte `wx` files, wait and
 retry bounds, staleness rules, same-process bookkeeping, and exit cleanup.
-The only approved runtime correction in 1.0.5 is propagation of the original
+The approved runtime correction in 1.0.5 is propagation of the original
 non-`ENOENT` asynchronous unlink error exactly once. `ENOENT` and synchronous
 suppression must stay compatible.
+Version 1.0.6 only migrates the maintained exit hook to the compatible
+`signal-exit@4.1.0` named API.
 
 Do not add promises, a parallel ESM runtime, ownership metadata, heartbeats,
 or a different lock protocol as a minor compatibility fix. Do not claim issue

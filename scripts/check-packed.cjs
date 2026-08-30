@@ -31,7 +31,7 @@ assert.deepStrictEqual(inventory, expected)
 
 const packed = JSON.parse(execFileSync('tar', ['-xOzf', absolute, 'package/package.json'], { encoding: 'utf8' }))
 assert.strictEqual(packed.name, '@stackline/lockfile')
-assert.strictEqual(packed.version, '1.0.5')
+assert.strictEqual(packed.version, '1.0.6')
 assert.strictEqual(packed.main, 'lockfile.js')
 assert.strictEqual(packed.types, 'lockfile.d.ts')
 

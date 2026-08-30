@@ -38,7 +38,7 @@ jobs:
       - run: mkdir -p release-candidate
       - run: npm run sbom
       - name: Validate SBOM JSON
-        run: node -e "var x=require('./release-candidate/stackline-lockfile-1.0.5.cdx.json');if(x.bomFormat!=='CycloneDX'||!x.metadata||!x.components)process.exit(1)"
+        run: node -e "var x=require('./release-candidate/stackline-lockfile-1.0.6.cdx.json');if(x.bomFormat!=='CycloneDX'||!x.metadata||!x.components)process.exit(1)"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: npm-package

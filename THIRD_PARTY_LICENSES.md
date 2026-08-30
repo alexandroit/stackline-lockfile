@@ -16,20 +16,20 @@ the earlier Git tag alone—is the compatibility baseline. The complete
 upstream ISC notice is retained exactly in `LICENSE` and reproduced in
 `NOTICE` with the independent-project attribution.
 
-## `signal-exit@3.0.7`
+## `signal-exit@4.1.0`
 
 - Upstream: <https://github.com/tapjs/signal-exit>
-- Package: <https://www.npmjs.com/package/signal-exit/v/3.0.7>
+- Package: <https://www.npmjs.com/package/signal-exit/v/4.1.0>
 - Role: runtime dependency used for best-effort process-exit cleanup
 - License: ISC
 
-The following license text is reproduced from `signal-exit@3.0.7`'s
+The following license text is reproduced from `signal-exit@4.1.0`'s
 `LICENSE.txt`:
 
 ```text
 The ISC License
 
-Copyright (c) 2015, Contributors
+Copyright (c) 2015-2023 Benjamin Coe, Isaac Z. Schlueter, and Contributors
 
 Permission to use, copy, modify, and/or distribute this software
 for any purpose with or without fee is hereby granted, provided

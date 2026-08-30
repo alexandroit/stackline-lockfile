@@ -63,7 +63,7 @@ var packageMetadata = JSON.parse(site['package-meta.json'])
 var canonical = 'https://alexandro.net/docs/vanilla/lockfile/'
 
 assert(packageMetadata.name === '@stackline/lockfile', 'package metadata identity is wrong')
-assert(packageMetadata.version === '1.0.5', 'package metadata version is wrong')
+assert(packageMetadata.version === '1.0.6', 'package metadata version is wrong')
 assert(packageMetadata.runtimeFloor === 'Node.js 14.17.0', 'package metadata runtime floor is wrong')
 assert(packageMetadata.moduleFormat === 'CommonJS', 'package metadata module format is wrong')
 assert(packageMetadata.productionDependencies === 1, 'package metadata production dependency count is wrong')
@@ -81,8 +81,8 @@ includesAll(visibleHtml, [
   'role="img"',
   'aria-label="Acquire creates a zero-byte file',
   '<caption>',
-  'npm install @stackline/lockfile@1.0.5',
-  'npm install lockfile@npm:@stackline/lockfile@1.0.5',
+  'npm install @stackline/lockfile@1.0.6',
+  'npm install lockfile@npm:@stackline/lockfile@1.0.6',
   'Node.js ≥14.17',
   'TypeScript declarations',
   'non-<code>ENOENT</code>',
@@ -109,7 +109,7 @@ assert(jsonLdMatch, 'index.html is missing JSON-LD')
 var jsonLd = JSON.parse(jsonLdMatch[1])
 assert(jsonLd['@type'] === 'SoftwareSourceCode', 'JSON-LD type must be SoftwareSourceCode')
 assert(jsonLd.name === '@stackline/lockfile', 'JSON-LD package identity is wrong')
-assert(jsonLd.version === '1.0.5', 'JSON-LD package version is wrong')
+assert(jsonLd.version === '1.0.6', 'JSON-LD package version is wrong')
 assert(jsonLd.url === canonical, 'JSON-LD canonical URL is wrong')
 
 includesAll(css, [
@@ -147,9 +147,9 @@ locations.forEach(function (location) {
 
 ;[llms, llmsFull].forEach(function (value, index) {
   includesAll(value, [
-    '@stackline/lockfile@1.0.5',
+    '@stackline/lockfile@1.0.6',
     'lockfile@1.0.4',
-    'npm install lockfile@npm:@stackline/lockfile@1.0.5',
+    'npm install lockfile@npm:@stackline/lockfile@1.0.6',
     'Node.js >=14.17',
     canonical,
     'ENOENT',
@@ -159,8 +159,8 @@ locations.forEach(function (location) {
 })
 
 includesAll(docs['README.md'], [
-  'npm install @stackline/lockfile@1.0.5',
-  'npm install lockfile@npm:@stackline/lockfile@1.0.5',
+  'npm install @stackline/lockfile@1.0.6',
+  'npm install lockfile@npm:@stackline/lockfile@1.0.6',
   'six-method API',
   'Node.js `>=14.17`',
   'First-party declarations',
@@ -182,7 +182,7 @@ includesAll(docs['COMPATIBILITY_CONTRACT.md'], [
 var license = read(projectDir, 'LICENSE').trim()
 assert(docs.NOTICE.indexOf(license) !== -1, 'NOTICE must contain the exact complete upstream ISC notice')
 assert(docs.NOTICE.indexOf('not affiliated with or endorsed by') !== -1, 'NOTICE lacks the non-affiliation statement')
-assert(docs['THIRD_PARTY_LICENSES.md'].indexOf('signal-exit@3.0.7') !== -1, 'Third-party inventory lacks signal-exit@3.0.7')
+assert(docs['THIRD_PARTY_LICENSES.md'].indexOf('signal-exit@4.1.0') !== -1, 'Third-party inventory lacks signal-exit@4.1.0')
 
 rootFiles.forEach(function (name) {
   assert(!/TODO|PLACEHOLDER|TBD/.test(docs[name]), name + ' contains unfinished placeholder text')

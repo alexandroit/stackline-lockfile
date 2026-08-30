@@ -8,12 +8,12 @@ const root = path.resolve(__dirname, '..')
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
 
 assert.strictEqual(pkg.name, '@stackline/lockfile')
-assert.strictEqual(pkg.version, '1.0.5')
+assert.strictEqual(pkg.version, '1.0.6')
 assert.strictEqual(pkg.type, 'commonjs')
 assert.strictEqual(pkg.main, 'lockfile.js')
 assert.strictEqual(pkg.types, 'lockfile.d.ts')
 assert.deepStrictEqual(pkg.engines, { node: '>=14.17' })
-assert.deepStrictEqual(pkg.dependencies, { 'signal-exit': '3.0.7' })
+assert.deepStrictEqual(pkg.dependencies, { 'signal-exit': '4.1.0' })
 assert.strictEqual(pkg.license, 'ISC')
 assert.strictEqual(pkg.publishConfig.access, 'public')
 assert.strictEqual(pkg.repository.url, 'git+https://github.com/alexandroit/stackline-lockfile.git')
@@ -44,6 +44,7 @@ assert.match(source, /var\s+callback\s*=\s*cb\s*\n\s*cb\s*=\s*null/, 'callback i
 assert.match(source, /return\s+callback\(unlinkEr\)/, 'non-ENOENT error is forwarded with exact identity')
 assert.match(source, /\n\s*callback\(\)\s*\n/, 'success and ENOENT preserve zero-argument settlement')
 assert.match(source, /try\s*\{\s*fs\.unlinkSync\(path\)\s*\}\s*catch\s*\(er\)\s*\{\}/, 'sync best-effort behavior remains')
+assert.match(source, /require\(['"]signal-exit['"]\)\.onExit/, 'signal-exit 4 named API is used')
 
 for (const file of pkg.files.concat(['package.json'])) {
   const text = fs.readFileSync(path.join(root, file), 'utf8')

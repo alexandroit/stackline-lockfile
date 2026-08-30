@@ -1,6 +1,6 @@
 {
   "name": "@stackline/lockfile",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Maintained compatibility-first file locking with observable asynchronous unlock failures",
   "type": "commonjs",
   "main": "lockfile.js",
@@ -32,7 +32,7 @@
     "check:packed": "node scripts/check-packed.cjs",
     "smoke:registry": "node scripts/alias-registry-smoke.cjs",
     "validate": "npm run lint && npm run test && npm run coverage && npm run test:types && npm run verify:docs && npm run check:package && npm run check:licenses && publint",
-    "sbom": "cyclonedx-npm --omit dev --output-format JSON --output-file release-candidate/stackline-lockfile-1.0.5.cdx.json",
+    "sbom": "cyclonedx-npm --omit dev --output-format JSON --output-file release-candidate/stackline-lockfile-1.0.6.cdx.json",
     "artifact": "node scripts/create-artifact.cjs",
     "prepack": "npm run lint && npm run test:core && npm run test:types && npm run check:package && npm run check:licenses"
   },
@@ -59,7 +59,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "signal-exit": "3.0.7"
+    "signal-exit": "4.1.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
