@@ -81,8 +81,8 @@ includesAll(visibleHtml, [
   'role="img"',
   'aria-label="Acquire creates a zero-byte file',
   '<caption>',
-  'npm install @stackline/lockfile@1.0.6',
-  'npm install lockfile@npm:@stackline/lockfile@1.0.6',
+  'npm install @stackline/lockfile@1.0.7',
+  'npm install lockfile@npm:@stackline/lockfile@1.0.7',
   'Node.js ≥14.17',
   'TypeScript declarations',
   'non-<code>ENOENT</code>',
@@ -147,9 +147,9 @@ locations.forEach(function (location) {
 
 ;[llms, llmsFull].forEach(function (value, index) {
   includesAll(value, [
-    '@stackline/lockfile@1.0.6',
+    '@stackline/lockfile@1.0.7',
     'lockfile@1.0.4',
-    'npm install lockfile@npm:@stackline/lockfile@1.0.6',
+    'npm install lockfile@npm:@stackline/lockfile@1.0.7',
     'Node.js >=14.17',
     canonical,
     'ENOENT',
@@ -159,8 +159,8 @@ locations.forEach(function (location) {
 })
 
 includesAll(docs['README.md'], [
-  'npm install @stackline/lockfile@1.0.6',
-  'npm install lockfile@npm:@stackline/lockfile@1.0.6',
+  'npm install @stackline/lockfile@1.0.7',
+  'npm install lockfile@npm:@stackline/lockfile@1.0.7',
   'six-method API',
   'Node.js `>=14.17`',
   'First-party declarations',

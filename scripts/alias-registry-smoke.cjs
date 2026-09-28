@@ -24,19 +24,19 @@ const server = http.createServer((request, response) => {
   try { decoded = decodeURIComponent(raw) } catch (_) {}
 
   if (decoded === '/@stackline/lockfile') {
-    const tarballUrl = `http://127.0.0.1:${server.address().port}/@stackline/lockfile/-/stackline-lockfile-1.0.6.tgz`
+    const tarballUrl = `http://127.0.0.1:${server.address().port}/@stackline/lockfile/-/stackline-lockfile-1.0.7.tgz`
     return json(response, {
       name: '@stackline/lockfile',
-      'dist-tags': { latest: '1.0.6' },
+      'dist-tags': { latest: '1.0.7' },
       versions: {
-        '1.0.6': Object.assign({}, packageJson, {
+        '1.0.7': Object.assign({}, packageJson, {
           dist: { tarball: tarballUrl, shasum, integrity }
         })
       }
     })
   }
 
-  if (decoded === '/@stackline/lockfile/-/stackline-lockfile-1.0.6.tgz') {
+  if (decoded === '/@stackline/lockfile/-/stackline-lockfile-1.0.7.tgz') {
     response.writeHead(200, {
       'content-type': 'application/octet-stream',
       'content-length': tarballBytes.length
@@ -53,9 +53,9 @@ server.listen(0, '127.0.0.1', async () => {
     const registry = `http://127.0.0.1:${server.address().port}`
     await directScopedSmoke(registry)
     await aliasSmoke('npm', process.platform === 'win32' ? 'npm.cmd' : 'npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], registry)
-    await aliasSmoke('pnpm-9', executable('pnpm'), ['install', '--ignore-scripts', '--frozen-lockfile=false'], registry)
+    await aliasSmoke('pnpm-10', executable('pnpm'), ['install', '--ignore-scripts', '--frozen-lockfile=false'], registry)
     await aliasSmoke('yarn-1', executable('yarn'), ['install', '--non-interactive'], registry)
-    process.stdout.write(`${JSON.stringify({ status: 'pass', directScoped: true, aliases: ['npm', 'pnpm-9', 'yarn-1'] })}\n`)
+    process.stdout.write(`${JSON.stringify({ status: 'pass', directScoped: true, aliases: ['npm', 'pnpm-10', 'yarn-1'] })}\n`)
   } catch (error) {
     console.error(error.stack || error)
     process.exitCode = 1
@@ -85,7 +85,7 @@ async function aliasSmoke (name, command, args, registry) {
   fs.mkdirSync(directory)
   fs.writeFileSync(path.join(directory, 'package.json'), `${JSON.stringify({
     private: true,
-    dependencies: { lockfile: 'npm:@stackline/lockfile@1.0.6' }
+    dependencies: { lockfile: 'npm:@stackline/lockfile@1.0.7' }
   }, null, 2)}\n`)
   fs.writeFileSync(path.join(directory, '.npmrc'), `@stackline:registry=${registry}\n`)
   const install = await run(command, args, directory)
@@ -101,7 +101,7 @@ async function verifyNpmClosure (directory, dependencyKey) {
   assert.ok(!tree.problems || tree.problems.length === 0, `npm ls reports problems: ${JSON.stringify(tree.problems)}`)
   const rootDependency = tree.dependencies && tree.dependencies[dependencyKey]
   assert.ok(rootDependency, `${dependencyKey} is present in the production tree`)
-  assert.strictEqual(rootDependency.version, '1.0.6')
+  assert.strictEqual(rootDependency.version, '1.0.7')
   assert.strictEqual(rootDependency.dependencies['signal-exit'].version, '4.1.0')
 
   const audited = await run(npm, [

@@ -1,5 +1,13 @@
 # Changes
 
+## [1.0.7] - 2026-09-28
+
+- Organize package documentation, preserve API and migration examples, and add Stackline community links.
+- Update development package-manager and SBOM tooling to patched pnpm, libxmljs2, and tar versions.
+- Improve package discovery keywords with precise domain terms and `stackline`.
+- Pin GitHub Actions release tooling and require an explicit missing-version response before publication.
+
+
 ## 1.0.6 - 2026-08-30
 
 * Move the maintained process-exit integration from `signal-exit@3.0.7` to

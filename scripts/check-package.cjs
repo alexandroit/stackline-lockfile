@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, '..')
 const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
 
 assert.strictEqual(pkg.name, '@stackline/lockfile')
-assert.strictEqual(pkg.version, '1.0.6')
+assert.strictEqual(pkg.version, '1.0.7')
 assert.strictEqual(pkg.type, 'commonjs')
 assert.strictEqual(pkg.main, 'lockfile.js')
 assert.strictEqual(pkg.types, 'lockfile.d.ts')

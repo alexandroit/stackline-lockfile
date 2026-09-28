@@ -7,8 +7,8 @@ and changes only asynchronous unlock of a present-but-unremovable file:
 reported exactly once. Synchronous unlock remains best-effort.
 
 - Runtime: Node.js >=14.17
-- Direct install: `npm install @stackline/lockfile@1.0.6`
-- Historical-key alias: `npm install lockfile@npm:@stackline/lockfile@1.0.6`
+- Direct install: `npm install @stackline/lockfile@1.0.7`
+- Historical-key alias: `npm install lockfile@npm:@stackline/lockfile@1.0.7`
 - Documentation: https://alexandro.net/docs/vanilla/lockfile/
 - Package: https://www.npmjs.com/package/@stackline/lockfile
 - Repository: https://github.com/alexandroit/stackline-lockfile
