@@ -1,6 +1,6 @@
 # Migration
 
-`@stackline/lockfile@1.0.6` preserves the callback-based CommonJS and on-disk
+`@stackline/lockfile@1.0.7` preserves the callback-based CommonJS and on-disk
 contract of `lockfile@1.0.4`. Choose either the historical-key alias or the
 direct scoped import; do not add both identities for the same lock path.
 
@@ -10,13 +10,13 @@ For the smallest source diff, replace the dependency spec while retaining the
 historical key:
 
 ```sh
-npm install lockfile@npm:@stackline/lockfile@1.0.6
+npm install lockfile@npm:@stackline/lockfile@1.0.7
 ```
 
 ```json
 {
   "dependencies": {
-    "lockfile": "npm:@stackline/lockfile@1.0.6"
+    "lockfile": "npm:@stackline/lockfile@1.0.7"
   }
 }
 ```
@@ -41,7 +41,7 @@ The second command should print `@stackline/lockfile`.
 New code can install the scoped identity:
 
 ```sh
-npm install @stackline/lockfile@1.0.6
+npm install @stackline/lockfile@1.0.7
 ```
 
 Then update the import:
@@ -84,7 +84,7 @@ consumer's typecheck and packed-install tests.
 
 ## Migration checklist
 
-1. Pin `@stackline/lockfile@1.0.6` directly or through the historical alias.
+1. Pin `@stackline/lockfile@1.0.7` directly or through the historical alias.
 2. Perform a clean install and inspect the resolved production dependency tree.
 3. Run all application tests on Node.js `>=14.17`.
 4. Exercise contention, timeout, retry, stale takeover, already-missing unlock,

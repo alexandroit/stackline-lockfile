@@ -1,7 +1,7 @@
 # @stackline/lockfile
 
 Independent compatibility-first continuation of `lockfile@1.0.4`. Version
-1.0.6 keeps the six-method callback-based CommonJS API, adds first-party types,
+1.0.7 keeps the six-method callback-based CommonJS API, adds first-party types,
 and changes only asynchronous unlock of a present-but-unremovable file:
 `ENOENT` remains success, while the original non-`ENOENT` unlink error is
 reported exactly once. Synchronous unlock remains best-effort.

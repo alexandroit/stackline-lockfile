@@ -111,7 +111,7 @@ Upstream issue [npm/lockfile#18](https://github.com/npm/lockfile/issues/18)
 identified the error boundary. In `lockfile@1.0.4`, asynchronous `unlock`
 discarded every `fs.unlink` error and always reported success.
 
-`@stackline/lockfile@1.0.5` changes only that branch:
+`@stackline/lockfile@1.0.7` changes only that branch:
 
 - `ENOENT` still means already unlocked and remains a successful no-op;
 - successful unlink still settles as `callback()` with `undefined`;
