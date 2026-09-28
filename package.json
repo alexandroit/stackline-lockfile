@@ -70,7 +70,7 @@
     "lockfile-upstream": "npm:lockfile@1.0.4",
     "pnpm": "10.34.5",
     "publint": "0.3.24",
-    "typescript": "3.9.10",
+    "typescript": "7.0.2",
     "yarn": "1.22.22"
   },
   "publishConfig": {
