@@ -4,13 +4,13 @@
 
 [![npm version](https://img.shields.io/npm/v/@stackline/lockfile.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/lockfile)
 [![license](https://img.shields.io/npm/l/@stackline/lockfile.svg?style=flat-square)](https://github.com/alexandroit/stackline-lockfile)
-[![GitHub repository](https://img.shields.io/badge/GitHub-alexandroit%2Fstackline-lockfile-181717?style=flat-square&logo=github)](https://github.com/alexandroit/stackline-lockfile)
+[![GitHub repository](https://img.shields.io/badge/GitHub-repository-181717?style=flat-square&logo=github)](https://github.com/alexandroit/stackline-lockfile)
 [![Docs](https://img.shields.io/badge/docs-alexandro.net-0f766e?style=flat-square)](https://alexandro.net/docs/vanilla/lockfile/)
 [![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
 
 **[Documentation](https://alexandro.net/docs/vanilla/lockfile/)** | **[npm](https://www.npmjs.com/package/@stackline/lockfile)** | **[Issues](https://github.com/alexandroit/stackline-lockfile/issues)** | **[Repository](https://github.com/alexandroit/stackline-lockfile)**
 
-**Current package version:** `1.0.9`
+**Current package version:** `1.0.10`
 
 ---
 
@@ -27,7 +27,7 @@ maintainers, or the upstream project.
 
 | Item | Value |
 | --- | --- |
-| Package | `@stackline/lockfile@1.0.9` |
+| Package | `@stackline/lockfile@1.0.10` |
 | Node.js runtime | `>=14.17` |
 | CommonJS / primary entry | `lockfile.js` |
 | Type declarations | `lockfile.d.ts` |
@@ -55,7 +55,7 @@ For new code, install and import the scoped package directly:
 ## Usage
 
 ```sh
-npm install @stackline/lockfile@1.0.9
+npm install @stackline/lockfile@1.0.10
 ```
 
 ```js
@@ -66,7 +66,7 @@ To keep an existing `require('lockfile')` unchanged, install the scoped
 package under the historical dependency key:
 
 ```sh
-npm install lockfile@npm:@stackline/lockfile@1.0.9
+npm install lockfile@npm:@stackline/lockfile@1.0.10
 ```
 
 The equivalent manifest entry is:
@@ -74,7 +74,7 @@ The equivalent manifest entry is:
 ```json
 {
   "dependencies": {
-    "lockfile": "npm:@stackline/lockfile@1.0.9"
+    "lockfile": "npm:@stackline/lockfile@1.0.10"
   }
 }
 ```

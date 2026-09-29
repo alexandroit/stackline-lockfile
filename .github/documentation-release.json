@@ -4,7 +4,7 @@
     {
       "name": "@stackline/lockfile",
       "path": "README.md",
-      "version": "1.0.9",
+      "version": "1.0.10",
       "baselineVersion": "1.0.8",
       "keywords": [
         "stackline",
@@ -22,8 +22,8 @@
       "homepage": "https://alexandro.net/docs/vanilla/lockfile/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/lockfile/-/lockfile-1.0.8.tgz",
       "baselineIntegrity": "sha512-HIfjXFkg0WIeIQwoG8mtMjyJtxEgTtsefj+gvrbwenh53qRbcODvSZFwbZ4VNhp1HJONKMvV71sPdm+8Icqe5Q==",
-      "expectedSha512": "5ffe6a53f254b82e1dcd61a6a09fad3c252cc26d952e991e26ddf15bb42bdcde6c2c1ed853328762dc319c340f4b8da1015930245af68af54833213b825818ff",
-      "tag": "docs-stackline-lockfile-v1.0.9"
+      "expectedSha512": "a24154a4ee22f9cb5b444d4ffc3340a1650cee7571e0271015842aa9c533e2378adb3a0a646e160d153dbef89c6dde27da155c0117a38be2cb7420c294d93e70",
+      "tag": "docs-stackline-lockfile-v1.0.10"
     }
   ]
 }
