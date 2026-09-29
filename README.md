@@ -11,7 +11,7 @@
 **[Issues](https://github.com/alexandroit/stackline-lockfile/issues)** |
 **[Repository](https://github.com/alexandroit/stackline-lockfile)**
 
-**Package version:** `1.0.7`
+**Package version:** `1.0.8`
 
 ## Why this package?
 
@@ -26,7 +26,7 @@ maintainers, or the upstream project.
 
 | Item | Value |
 | --- | --- |
-| Package | `@stackline/lockfile@1.0.7` |
+| Package | `@stackline/lockfile@1.0.8` |
 | Node.js runtime | `>=14.17` |
 | CommonJS / primary entry | `lockfile.js` |
 | Type declarations | `lockfile.d.ts` |
@@ -54,7 +54,7 @@ For new code, install and import the scoped package directly:
 ## Usage
 
 ```sh
-npm install @stackline/lockfile@1.0.7
+npm install @stackline/lockfile@1.0.8
 ```
 
 ```js
@@ -65,7 +65,7 @@ To keep an existing `require('lockfile')` unchanged, install the scoped
 package under the historical dependency key:
 
 ```sh
-npm install lockfile@npm:@stackline/lockfile@1.0.7
+npm install lockfile@npm:@stackline/lockfile@1.0.8
 ```
 
 The equivalent manifest entry is:
@@ -73,7 +73,7 @@ The equivalent manifest entry is:
 ```json
 {
   "dependencies": {
-    "lockfile": "npm:@stackline/lockfile@1.0.7"
+    "lockfile": "npm:@stackline/lockfile@1.0.8"
   }
 }
 ```
@@ -111,7 +111,7 @@ Upstream issue [npm/lockfile#18](https://github.com/npm/lockfile/issues/18)
 identified the error boundary. In `lockfile@1.0.4`, asynchronous `unlock`
 discarded every `fs.unlink` error and always reported success.
 
-`@stackline/lockfile@1.0.7` changes only that branch:
+`@stackline/lockfile@1.0.7` changed only that branch:
 
 - `ENOENT` still means already unlocked and remains a successful no-op;
 - successful unlink still settles as `callback()` with `undefined`;

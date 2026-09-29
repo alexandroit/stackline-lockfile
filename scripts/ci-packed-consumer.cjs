@@ -44,7 +44,12 @@ var lockfile = require(packageRoot)
 var deepEntry = require(path.join(packageRoot, 'lockfile.js'))
 var metadata = require(path.join(packageRoot, 'package.json'))
 assert.strictEqual(metadata.name, '@stackline/lockfile')
-assert.strictEqual(metadata.version, '1.0.7')
+assert.strictEqual(metadata.version, '1.0.8')
+assert.strictEqual(metadata.engines.node, '>=14.17')
+// Installing the tarball as a dependency must not install its modern build tools.
+// This keeps the Node 14 runtime matrix independent of the Node 20+ Yarn CLI.
+assert.strictEqual(fs.existsSync(path.join(workspace, 'node_modules', 'yarn')), false)
+assert.strictEqual(fs.existsSync(path.join(packageRoot, 'node_modules', 'yarn')), false)
 assert.strictEqual(deepEntry, lockfile)
 assert.strictEqual(fs.existsSync(path.join(packageRoot, 'lockfile.d.ts')), true)
 assert.strictEqual(typeof lockfile.lock, 'function')
@@ -75,6 +80,7 @@ import(pathToFileURL(path.join(packageRoot, 'lockfile.js')).href).then(function 
       platform: process.platform,
       package: metadata.name,
       version: metadata.version,
+      developmentToolingInstalled: false,
       commonjsRoot: true,
       deepEntry: true,
       esmDefaultInterop: true

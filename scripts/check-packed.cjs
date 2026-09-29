@@ -22,6 +22,7 @@ const expected = [
   'package/NOTICE',
   'package/README.md',
   'package/THIRD_PARTY_LICENSES.md',
+  'package/UPSTREAM.md',
   'package/lockfile.d.ts',
   'package/lockfile.js',
   'package/package.json'
@@ -31,7 +32,7 @@ assert.deepStrictEqual(inventory, expected)
 
 const packed = JSON.parse(execFileSync('tar', ['-xOzf', absolute, 'package/package.json'], { encoding: 'utf8' }))
 assert.strictEqual(packed.name, '@stackline/lockfile')
-assert.strictEqual(packed.version, '1.0.7')
+assert.strictEqual(packed.version, '1.0.8')
 assert.strictEqual(packed.main, 'lockfile.js')
 assert.strictEqual(packed.types, 'lockfile.d.ts')
 

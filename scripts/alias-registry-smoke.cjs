@@ -4,6 +4,7 @@ const assert = require('assert')
 const crypto = require('crypto')
 const fs = require('fs')
 const http = require('http')
+const https = require('https')
 const os = require('os')
 const path = require('path')
 const { spawn } = require('child_process')
@@ -24,24 +25,33 @@ const server = http.createServer((request, response) => {
   try { decoded = decodeURIComponent(raw) } catch (_) {}
 
   if (decoded === '/@stackline/lockfile') {
-    const tarballUrl = `http://127.0.0.1:${server.address().port}/@stackline/lockfile/-/stackline-lockfile-1.0.7.tgz`
+    const tarballUrl = `http://127.0.0.1:${server.address().port}/@stackline/lockfile/-/stackline-lockfile-1.0.8.tgz`
     return json(response, {
       name: '@stackline/lockfile',
-      'dist-tags': { latest: '1.0.7' },
+      'dist-tags': { latest: '1.0.8' },
       versions: {
-        '1.0.7': Object.assign({}, packageJson, {
+        '1.0.8': Object.assign({}, packageJson, {
           dist: { tarball: tarballUrl, shasum, integrity }
         })
       }
     })
   }
 
-  if (decoded === '/@stackline/lockfile/-/stackline-lockfile-1.0.7.tgz') {
+  if (decoded === '/@stackline/lockfile/-/stackline-lockfile-1.0.8.tgz') {
     response.writeHead(200, {
       'content-type': 'application/octet-stream',
       'content-length': tarballBytes.length
     })
     return response.end(tarballBytes)
+  }
+
+  // The parent is served from this isolated fixture, while its published
+  // maintained dependency must resolve through the real public registry.
+  if (decoded === '/@stackline/signal-exit') {
+    return https.get('https://registry.npmjs.org/@stackline%2fsignal-exit', upstream => {
+      response.writeHead(upstream.statusCode, { 'content-type': 'application/json' })
+      upstream.pipe(response)
+    }).on('error', error => { response.writeHead(502); response.end(error.message) })
   }
 
   response.writeHead(404, { 'content-type': 'application/json' })
@@ -85,7 +95,7 @@ async function aliasSmoke (name, command, args, registry) {
   fs.mkdirSync(directory)
   fs.writeFileSync(path.join(directory, 'package.json'), `${JSON.stringify({
     private: true,
-    dependencies: { lockfile: 'npm:@stackline/lockfile@1.0.7' }
+    dependencies: { lockfile: 'npm:@stackline/lockfile@1.0.8' }
   }, null, 2)}\n`)
   fs.writeFileSync(path.join(directory, '.npmrc'), `@stackline:registry=${registry}\n`)
   const install = await run(command, args, directory)
@@ -101,8 +111,8 @@ async function verifyNpmClosure (directory, dependencyKey) {
   assert.ok(!tree.problems || tree.problems.length === 0, `npm ls reports problems: ${JSON.stringify(tree.problems)}`)
   const rootDependency = tree.dependencies && tree.dependencies[dependencyKey]
   assert.ok(rootDependency, `${dependencyKey} is present in the production tree`)
-  assert.strictEqual(rootDependency.version, '1.0.7')
-  assert.strictEqual(rootDependency.dependencies['signal-exit'].version, '4.1.0')
+  assert.strictEqual(rootDependency.version, '1.0.8')
+  assert.strictEqual(rootDependency.dependencies['signal-exit'].version, '1.0.0')
 
   const audited = await run(npm, [
     'audit',

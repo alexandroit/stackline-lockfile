@@ -1,14 +1,14 @@
 # @stackline/lockfile
 
 Independent compatibility-first continuation of `lockfile@1.0.4`. Version
-1.0.7 keeps the six-method callback-based CommonJS API, adds first-party types,
+1.0.8 keeps the six-method callback-based CommonJS API, adds first-party types,
 and changes only asynchronous unlock of a present-but-unremovable file:
 `ENOENT` remains success, while the original non-`ENOENT` unlink error is
 reported exactly once. Synchronous unlock remains best-effort.
 
 - Runtime: Node.js >=14.17
-- Direct install: `npm install @stackline/lockfile@1.0.7`
-- Historical-key alias: `npm install lockfile@npm:@stackline/lockfile@1.0.7`
+- Direct install: `npm install @stackline/lockfile@1.0.8`
+- Historical-key alias: `npm install lockfile@npm:@stackline/lockfile@1.0.8`
 - Documentation: https://alexandro.net/docs/vanilla/lockfile/
 - Package: https://www.npmjs.com/package/@stackline/lockfile
 - Repository: https://github.com/alexandroit/stackline-lockfile

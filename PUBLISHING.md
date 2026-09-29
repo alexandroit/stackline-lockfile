@@ -17,11 +17,16 @@ This is a release gate checklist, not authorization to publish.
 5. Publish that exact archive to an isolated Verdaccio registry. Byte-verify
    it and test clean direct and historical-key alias consumers before any
    official registry action.
-6. Publish the already-verified bytes once to official npm with the authorized
-   account. Verify registry integrity, metadata, provenance or signatures,
+6. Dispatch `publish.yml` on `main` with the successful `ci_run_id` and exact
+   CI archive `expected_sha512`. The workflow gates CI/CodeQL at that commit,
+   downloads the original `npm-package` artifact, and publishes those bytes once
+   through GitHub Actions. The encrypted npm token is available only to the
+   publish step. Verify registry integrity, metadata, provenance and signatures,
    production dependencies, declarations, and both install forms.
 7. Only after registry verification, create the immutable release tag and
    GitHub release at the already-green commit. Do not rebuild or move a tag.
+   If publication succeeded but verification was interrupted, recovery must
+   retain the original source commit and publication run and must not republish.
 8. Deploy and verify Alexandro.Net documentation at
    `https://alexandro.net/docs/vanilla/lockfile/`, including responsive and
    keyboard behavior, `robots.txt`, `sitemap.xml`, `llms.txt`, and

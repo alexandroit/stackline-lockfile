@@ -63,7 +63,7 @@ var packageMetadata = JSON.parse(site['package-meta.json'])
 var canonical = 'https://alexandro.net/docs/vanilla/lockfile/'
 
 assert(packageMetadata.name === '@stackline/lockfile', 'package metadata identity is wrong')
-assert(packageMetadata.version === '1.0.7', 'package metadata version is wrong')
+assert(packageMetadata.version === '1.0.8', 'package metadata version is wrong')
 assert(packageMetadata.runtimeFloor === 'Node.js 14.17.0', 'package metadata runtime floor is wrong')
 assert(packageMetadata.moduleFormat === 'CommonJS', 'package metadata module format is wrong')
 assert(packageMetadata.productionDependencies === 1, 'package metadata production dependency count is wrong')
@@ -81,8 +81,8 @@ includesAll(visibleHtml, [
   'role="img"',
   'aria-label="Acquire creates a zero-byte file',
   '<caption>',
-  'npm install @stackline/lockfile@1.0.7',
-  'npm install lockfile@npm:@stackline/lockfile@1.0.7',
+  'npm install @stackline/lockfile@1.0.8',
+  'npm install lockfile@npm:@stackline/lockfile@1.0.8',
   'Node.js ≥14.17',
   'TypeScript declarations',
   'non-<code>ENOENT</code>',
@@ -109,7 +109,7 @@ assert(jsonLdMatch, 'index.html is missing JSON-LD')
 var jsonLd = JSON.parse(jsonLdMatch[1])
 assert(jsonLd['@type'] === 'SoftwareSourceCode', 'JSON-LD type must be SoftwareSourceCode')
 assert(jsonLd.name === '@stackline/lockfile', 'JSON-LD package identity is wrong')
-assert(jsonLd.version === '1.0.7', 'JSON-LD package version is wrong')
+assert(jsonLd.version === '1.0.8', 'JSON-LD package version is wrong')
 assert(jsonLd.url === canonical, 'JSON-LD canonical URL is wrong')
 
 includesAll(css, [
@@ -147,9 +147,9 @@ locations.forEach(function (location) {
 
 ;[llms, llmsFull].forEach(function (value, index) {
   includesAll(value, [
-    '@stackline/lockfile@1.0.7',
+    '@stackline/lockfile@1.0.8',
     'lockfile@1.0.4',
-    'npm install lockfile@npm:@stackline/lockfile@1.0.7',
+    'npm install lockfile@npm:@stackline/lockfile@1.0.8',
     'Node.js >=14.17',
     canonical,
     'ENOENT',
@@ -159,8 +159,8 @@ locations.forEach(function (location) {
 })
 
 includesAll(docs['README.md'], [
-  'npm install @stackline/lockfile@1.0.7',
-  'npm install lockfile@npm:@stackline/lockfile@1.0.7',
+  'npm install @stackline/lockfile@1.0.8',
+  'npm install lockfile@npm:@stackline/lockfile@1.0.8',
   'six-method API',
   'Node.js `>=14.17`',
   'First-party declarations',

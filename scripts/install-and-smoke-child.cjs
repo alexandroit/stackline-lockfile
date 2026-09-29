@@ -21,7 +21,7 @@ async function smoke (specifier) {
   const deepEntry = require(path.join(packageRoot, 'lockfile.js'))
   const metadata = require(path.join(packageRoot, 'package.json'))
   assert.strictEqual(metadata.name, '@stackline/lockfile')
-  assert.strictEqual(metadata.version, '1.0.7')
+  assert.strictEqual(metadata.version, '1.0.8')
   assert.strictEqual(deepEntry, lockfile)
   assert.strictEqual(fs.existsSync(path.join(packageRoot, 'lockfile.d.ts')), true)
   const imported = await import(pathToFileURL(path.join(packageRoot, 'lockfile.js')).href)

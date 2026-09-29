@@ -29,7 +29,9 @@ jobs:
       - run: npm install --global npm@11.19.0
       - run: npm ci --ignore-scripts
       - run: npm run validate
-      - run: npm audit --omit=dev --audit-level=high
+      - run: node --test scripts/registry-requests.test.mjs
+      - run: npm audit --audit-level=low
+      - run: npm audit --omit=dev --audit-level=low
       - run: mkdir -p artifact
       - run: npm pack --ignore-scripts --json --pack-destination artifact
       - run: npm run check:packed -- artifact/*.tgz
@@ -38,7 +40,7 @@ jobs:
       - run: mkdir -p release-candidate
       - run: npm run sbom
       - name: Validate SBOM JSON
-        run: node -e "var x=require('./release-candidate/stackline-lockfile-1.0.7.cdx.json');if(x.bomFormat!=='CycloneDX'||!x.metadata||!x.components)process.exit(1)"
+        run: node -e "var x=require('./release-candidate/stackline-lockfile-1.0.8.cdx.json');if(x.bomFormat!=='CycloneDX'||!x.metadata||!x.components)process.exit(1)"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: npm-package

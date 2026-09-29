@@ -16,7 +16,11 @@ the earlier Git tag alone—is the compatibility baseline. The complete
 upstream ISC notice is retained exactly in `LICENSE` and reproduced in
 `NOTICE` with the independent-project attribution.
 
-## `signal-exit@4.1.0`
+## `signal-exit@4.1.0` via `@stackline/signal-exit@1.0.0`
+
+The declared dependency key remains `signal-exit`, using npm alias
+`npm:@stackline/signal-exit@1.0.0`. The maintained fork preserves the original
+ISC implementation and notices: https://github.com/alexandroit/stackline-signal-exit .
 
 - Upstream: <https://github.com/tapjs/signal-exit>
 - Package: <https://www.npmjs.com/package/signal-exit/v/4.1.0>

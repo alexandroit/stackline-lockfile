@@ -5,7 +5,14 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es2018",
-    "types": ["node"]
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
-  "files": ["consumer.ts"]
+  "files": [
+    "consumer.ts"
+  ]
 }

@@ -9,7 +9,7 @@ const { execFileSync } = require('child_process')
 
 const root = path.resolve(__dirname, '..')
 const destination = path.join(root, 'release-candidate')
-const expectedName = 'stackline-lockfile-1.0.7.tgz'
+const expectedName = 'stackline-lockfile-1.0.8.tgz'
 const finalPath = path.join(destination, expectedName)
 
 fs.mkdirSync(destination, { recursive: true })
@@ -30,7 +30,7 @@ const inventory = execFileSync('tar', ['-tzf', finalPath], { encoding: 'utf8' })
 const manifest = {
   schema: 'stackline-release-artifact-v1',
   package: '@stackline/lockfile',
-  version: '1.0.7',
+  version: '1.0.8',
   filename: expectedName,
   bytes: bytes.length,
   sha1: hash(bytes, 'sha1'),

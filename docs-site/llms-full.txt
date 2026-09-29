@@ -4,7 +4,7 @@ Canonical documentation: https://alexandro.net/docs/vanilla/lockfile/
 Package: https://www.npmjs.com/package/@stackline/lockfile
 Repository: https://github.com/alexandroit/stackline-lockfile
 
-`@stackline/lockfile@1.0.7` is an independent Stackline continuation of the
+`@stackline/lockfile@1.0.8` is an independent Stackline continuation of the
 ISC-licensed `lockfile@1.0.4` npm artifact. It is not affiliated with or
 endorsed by Isaac Z. Schlueter, npm, the original maintainers, or the upstream
 project. The runtime is CommonJS on Node.js >=14.17. First-party TypeScript
@@ -14,16 +14,16 @@ declarations are additive; there is no Promise API or separate ESM runtime.
 
 Direct scoped install:
 
-`npm install @stackline/lockfile@1.0.7`
+`npm install @stackline/lockfile@1.0.8`
 
 Then use `require('@stackline/lockfile')`.
 
 Historical-key npm alias:
 
-`npm install lockfile@npm:@stackline/lockfile@1.0.7`
+`npm install lockfile@npm:@stackline/lockfile@1.0.8`
 
 The equivalent dependency value is
-`"lockfile": "npm:@stackline/lockfile@1.0.7"`, which preserves
+`"lockfile": "npm:@stackline/lockfile@1.0.8"`, which preserves
 `require('lockfile')`.
 
 ## API
@@ -96,6 +96,6 @@ but its mkdir/heartbeat/release-function protocol is not a drop-in replacement.
 
 License: ISC. The complete Isaac Z. Schlueter and Contributors notice from the
 official 1.0.4 artifact is retained in LICENSE and NOTICE. Runtime dependency
-`signal-exit@4.1.0` is also ISC licensed. Exact-version advisory searches dated
+`@stackline/signal-exit@1.0.0` preserves the `signal-exit@4.1.0` API and ISC license. Exact-version advisory searches dated
 2026-08-30 found no matches for upstream 1.0.4; this is not a
 vulnerability-free claim.

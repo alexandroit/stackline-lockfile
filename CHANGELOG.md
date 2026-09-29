@@ -1,5 +1,15 @@
 # Changes
 
+## [1.0.8] - 2026-09-29
+
+- Alias runtime signal-exit to the maintained @stackline/signal-exit@1.0.0,
+  preserving the named onExit API and original ISC license.
+- Use @stackline/yarn@1.0.0 for real development CLI alias-install verification.
+- Preserve Node >=14.17 runtime, API, stress/coverage tests and independent
+  lockfile@1.0.4, TypeScript 3.9 and Node 14 declaration oracles.
+- Publish the exact CI tarball and verify registry bytes, provenance, signatures
+  and immutable GitHub assets.
+
 ## [1.0.7] - 2026-09-28
 
 - Organize package documentation, preserve API and migration examples, and add Stackline community links.
