@@ -1,6 +1,6 @@
 {
   "name": "@stackline/lockfile",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Maintained compatibility-first file locking with observable asynchronous unlock failures",
   "type": "commonjs",
   "main": "lockfile.js",
@@ -46,13 +46,16 @@
     "url": "https://github.com/alexandroit/stackline-lockfile/issues"
   },
   "keywords": [
+    "stackline",
+    "npm-package",
     "lockfile",
+    "typescript",
+    "nodejs",
     "file-lock",
     "filesystem",
     "mutex",
     "concurrency",
     "commonjs",
-    "stackline",
     "locking"
   ],
   "author": "Stackline Maintainers",
