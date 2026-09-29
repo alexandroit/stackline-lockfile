@@ -31,6 +31,7 @@ jobs:
       - run: npm run validate
       - run: node --test scripts/registry-requests.test.mjs
       - run: npm audit --audit-level=low
+      - run: npm audit --prefix test/types --audit-level=low
       - run: npm audit --omit=dev --audit-level=low
       - run: mkdir -p artifact
       - run: npm pack --ignore-scripts --json --pack-destination artifact
