@@ -1,6 +1,6 @@
 {
   "name": "@stackline/lockfile",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Maintained compatibility-first file locking with observable asynchronous unlock failures",
   "type": "commonjs",
   "main": "lockfile.js",
